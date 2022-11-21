@@ -30,9 +30,10 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { useStore } from "@/store";
-import { useLoginForm } from "../use/login-form";
-import { error } from "../utils/error";
-export default {
+import { useLoginForm } from "@/use/login-form";
+import { error } from "@/utils/error";
+import { defineComponent } from "vue";
+export default defineComponent({
   setup() {
     const route = useRoute();
     const store = useStore();
@@ -45,7 +46,7 @@ export default {
 
     return { ...useLoginForm() };
   },
-};
+});
 </script>
 
 <style>

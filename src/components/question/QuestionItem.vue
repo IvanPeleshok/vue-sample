@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts">
+import { IQuestion } from "@/types/IQuestions";
 import { ref, PropType, defineComponent } from "vue";
-import { IQuestion } from "../../types/IQuestions";
 
 export default defineComponent({
   props: {
@@ -17,8 +17,9 @@ export default defineComponent({
     },
   },
   setup() {
+    const isOpen = ref(false);
     return {
-      isOpen: ref<boolean>(false),
+      isOpen
     };
   },
 });

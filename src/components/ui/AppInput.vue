@@ -17,16 +17,32 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   emits: {
-    "update:modelValue": (value?: any) => true,
-    blur: (value?: any) => true,
+    "update:modelValue": (value: string) => true,
+    blur: () => true,
   },
-  props: ["label", "modelValue", "type", "id", "error"],
+  props: {
+    label: {
+      type: String
+    },
+    modelValue: {
+      type: String
+    },
+    type: {
+      type: String
+    },
+    id: {
+      type: String
+    },
+    error: {
+      type: String
+    }
+  },
   setup(_, ctx) {
     const change = (event: Event) =>
       ctx.emit("update:modelValue", (event.target as HTMLInputElement).value);
 
     return {
-      change,
+      change
     };
   },
 });

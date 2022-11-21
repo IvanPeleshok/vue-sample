@@ -19,7 +19,7 @@
 <script lang="ts">
 import AppPage from "../components/ui/AppPage.vue";
 import RequestTable from "../components/request/RequestTable.vue";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, defineComponent } from "vue";
 import AppModal from "../components/ui/AppModal.vue";
 import RequestModal from "../components/request/RequestModal.vue";
 import { useStore } from "@/store";
@@ -27,7 +27,7 @@ import AppLoader from "../components/ui/AppLoader.vue";
 import RequestFilter from "../components/request/RequestFilter.vue";
 import { IRequest } from "@/types/IRequest";
 import { IFilterRequest } from "@/types/IFilterRequest";
-export default {
+export default defineComponent({
   components: {
     AppPage,
     RequestTable,
@@ -39,6 +39,15 @@ export default {
   setup() {
     const store = useStore();
     const modal = ref(false);
+    const loading = ref(false);
+    const filter = ref<IFilterRequest>({ name: null, status: null });
+
+    onMounted(async () => {
+      loading.value = true;
+      await store.dispatch("request/load");
+      loading.value = false;
+    });
+
     const requests = computed(() =>
       store.getters["request/requests"]
         .filter((request: IRequest) => {
@@ -56,14 +65,6 @@ export default {
           return request;
         })
     );
-    const loading = ref(false);
-    const filter = ref<IFilterRequest>({ name: null, status: null });
-
-    onMounted(async () => {
-      loading.value = true;
-      await store.dispatch("request/load");
-      loading.value = false;
-    });
 
     return {
       modal,
@@ -72,5 +73,5 @@ export default {
       filter,
     };
   },
-};
+});
 </script>

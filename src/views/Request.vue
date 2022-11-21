@@ -1,6 +1,6 @@
 <template>
   <app-loader v-if="loading" />
-  <app-page title="Заявка" v-else-if="request" :back="true">
+  <app-page title="Заявка" v-else-if="request" back>
     <p><strong>Имя владельца</strong> : {{ request.fio }}</p>
     <p><strong>Телефон</strong> : {{ request.phone }}</p>
     <p><strong>Сумма</strong> : {{ request.amount }}</p>
@@ -15,7 +15,6 @@
 <script lang="ts">
 import {
   computed,
-  ComputedRef,
   onMounted,
   onUnmounted,
   ref,
@@ -35,6 +34,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const loading = ref(true);
+
     onMounted(async () => {
       loading.value = true;
       await store.dispatch("request/loadById", route.params.id);
@@ -51,9 +51,9 @@ export default defineComponent({
     };
 
     const request = computed(
-      () =>
-        store.state.request.request! as RequiredProperty<NonNullable<IRequest>>
+      () => store.state.request.request! as RequiredProperty<NonNullable<IRequest>>
     );
+
     return {
       request,
       loading,

@@ -3,12 +3,12 @@
 </template>
 
 <script lang="ts">
-import { computed } from "vue";
+import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import MainLayout from "./layout/MainLayout.vue";
 import AuthLayout from "./layout/AuthLayout.vue";
 
-export default {
+export default defineComponent({
   setup() {
     const route = useRoute();
 
@@ -17,5 +17,5 @@ export default {
     };
   },
   components: { MainLayout, AuthLayout },
-};
+});
 </script>

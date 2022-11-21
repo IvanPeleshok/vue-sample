@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { currency } from "../../utils/currency";
+import { currency } from "@/utils/currency";
 import AppStatus from "../ui/AppStatus.vue";
 export default {
   components: { AppStatus },

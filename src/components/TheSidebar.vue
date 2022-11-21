@@ -9,15 +9,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "@vue/runtime-core";
+import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
 export default defineComponent({
   setup() {
     const store = useStore();
 
     const sidebar = computed(() => store.state.sidebar);
+    const close = () => store.commit("closeSidebar");
 
-    return { sidebar, close: () => store.commit("closeSidebar") };
+    return { sidebar, close };
   },
 });
 </script>

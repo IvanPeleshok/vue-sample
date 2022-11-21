@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+import { CLASSES_MAP, TEXT_MAP } from "@/contants";
 import { defineComponent, ref } from "vue";
 export default defineComponent({
   props: {
@@ -12,24 +13,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const classesMap = {
-      active: "primary",
-      cancelled: "danger",
-      done: "primary",
-      pending: "warning",
-    };
-
-    const textMap = {
-      active: "Активен",
-      cancelled: "Отменён",
-      done: "Завершён",
-      pending: "Выполняется",
-    };
-
-    const className = ref(
-      classesMap[(props as any).type as keyof typeof textMap]
-    );
-    const text = ref(textMap[(props as any).type as keyof typeof textMap]);
+    const className = ref(CLASSES_MAP[props.type as keyof typeof CLASSES_MAP]);
+    const text = ref(TEXT_MAP[props.type as keyof typeof TEXT_MAP]);
 
     return {
       className,

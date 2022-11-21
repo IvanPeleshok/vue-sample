@@ -8,27 +8,23 @@
 
 <script lang="ts">
 import { useStore } from "@/store";
+import { TITLE_MAP } from "@/contants"
 import { computed, defineComponent } from "vue";
 export default defineComponent({
   setup() {
     const store = useStore();
-
-    const TITLE_MAP = {
-      primary: "Упешно!",
-      danger: "Ошибка!",
-      warning: "Внимание",
-    };
-
     const message = computed(() => store.state.message);
 
     const title = computed(() =>
       message.value ? TITLE_MAP[message.value.type as keyof typeof TITLE_MAP] : null
     );
 
+    const close = () => store.commit("clearMessage");
+
     return {
       message,
       title,
-      close: () => store.commit("clearMessage"),
+      close
     };
   },
 });

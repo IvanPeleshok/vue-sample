@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts">
+import { IFilterRequest } from "@/types/IFilterRequest";
 import { ref, watch, computed, defineComponent, PropType } from "vue";
-import { IFilterRequest } from "../../types/IFilterRequest";
 
 export default defineComponent({
   emits: {
@@ -45,14 +45,16 @@ export default defineComponent({
 
     const isActive = computed(() => name.value || status.value);
 
+    const reset = () => {
+      name.value = "";
+      status.value = "";
+    };
+
     return {
       name,
       status,
       isActive,
-      reset: () => {
-        name.value = "";
-        status.value = "";
-      },
+      reset
     };
   },
 });

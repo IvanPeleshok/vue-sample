@@ -9,16 +9,11 @@ if (process.env.NODE_ENV === "development") {
     plugins.push(createLogger());
 }
 
-interface Temperary {
-    message: "",
-    sidebar: boolean;
-}
-
 export const store = createStore<State>({
     plugins,
     state() {
         return {
-            message: "",
+            message: null,
             sidebar: false,
         } as any;
     },

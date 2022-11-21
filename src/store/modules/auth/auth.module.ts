@@ -1,8 +1,9 @@
 const TOKEN_KEY = "jwt-token";
+import { IUser } from "@/types/IUser";
 import axios from "axios";
 import { Module } from "vuex";
-import { error } from "../../../utils/error";
-import { State } from "../../type";
+import { error } from "@/utils/error";
+import { State } from "@/store/type";
 
 export interface IAuthModule {
     token: string | null;
@@ -16,7 +17,7 @@ const module: Module<IAuthModule, State> = {
         };
     },
     mutations: {
-        setToken(state, token) {
+        setToken(state, token: string) {
             state.token = token;
             localStorage.setItem(TOKEN_KEY, token);
         },
@@ -26,7 +27,7 @@ const module: Module<IAuthModule, State> = {
         },
     },
     actions: {
-        async login({ commit, dispatch }, payload) {
+        async login({ commit, dispatch }, payload: IUser) {
             try {
                 const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`;
                 const { data } = await axios.post(url, { ...payload, returenSecureToken: true });
@@ -35,13 +36,9 @@ const module: Module<IAuthModule, State> = {
             } catch (e: any) {
                 dispatch(
                     "setMessage",
-                    {
-                        value: error(e.response.data.error.message),
-                        type: "danger",
-                    },
+                    { value: error(e.response.data.error.message), type: "danger" },
                     { root: true }
                 );
-                throw new Error();
             }
         },
     },

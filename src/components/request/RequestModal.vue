@@ -46,10 +46,10 @@
 
 <script lang="ts">
 import AppInput from "../ui/AppInput.vue";
-import { useRequestForm } from "../../use/request-form";
 import { useStore } from "@/store";
-import { IRequest } from "../../types/IRequest";
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "vue";
+import { IRequest } from "@/types/IRequest";
+import { useRequestForm } from "@/use/request-form";
 export default defineComponent({
   components: { AppInput },
   emits: ["created"],
@@ -61,7 +61,7 @@ export default defineComponent({
     };
 
     return {
-      ...useRequestForm(submit as any),
+      ...useRequestForm(submit as (value: Record<string, any>) => Promise<void>),
     };
   },
 });

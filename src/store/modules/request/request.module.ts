@@ -1,8 +1,8 @@
 import { State } from "@/store/type";
 import { IRequest } from "@/types/IRequest";
 import { Module } from "vuex";
-import axios from "../../../axios/request";
-import { store } from "../../index";
+import axios from "@/axios/request";
+import { store } from "@/store";
 
 export interface IRequestModule {
     request: IRequest | null;
@@ -18,37 +18,31 @@ const module: Module<IRequestModule, State> = {
         };
     },
     mutations: {
-        setRequests(state, requests) {
+        setRequests(state, requests: IRequest[]) {
             state.requests = requests;
         },
-        addRequest(state, request) {
+        addRequest(state, request: IRequest) {
             state.requests.push(request);
         },
-        setRequest(state, request) {
+        setRequest(state, request: IRequest) {
             state.request = request;
         },
     },
     actions: {
-        async create({ commit, dispatch }, payload) {
+        async create({ commit, dispatch }, payload: IRequest) {
             try {
                 const token = store.getters["auth/token"];
                 const { data } = await axios.post(`/request.json?auth=${token}`, payload);
                 commit("addRequest", { ...payload, id: data.name });
                 dispatch(
                     "setMessage",
-                    {
-                        value: "Заявка успешно создана",
-                        type: "primary",
-                    },
+                    { value: "Заявка успешно создана", type: "primary" },
                     { root: true }
                 );
             } catch (e: any) {
                 dispatch(
                     "setMessage",
-                    {
-                        value: e.message,
-                        type: "danger",
-                    },
+                    { value: e.message, type: "danger" },
                     { root: true }
                 );
             }
@@ -62,15 +56,12 @@ const module: Module<IRequestModule, State> = {
             } catch (e: any) {
                 dispatch(
                     "setMessage",
-                    {
-                        value: e.message,
-                        type: "danger",
-                    },
+                    { value: e.message, type: "danger" },
                     { root: true }
                 );
             }
         },
-        async loadById({ commit, dispatch }, id) {
+        async loadById({ commit, dispatch }, id: string) {
             try {
                 const token = store.getters["auth/token"];
                 const { data } = await axios.get(`/request/${id}.json?auth=${token}`);
@@ -78,35 +69,26 @@ const module: Module<IRequestModule, State> = {
             } catch (e: any) {
                 dispatch(
                     "setMessage",
-                    {
-                        value: e.message,
-                        type: "danger",
-                    },
+                    { value: e.message, type: "danger" },
                     { root: true }
                 );
             }
         },
-        async deleteRequest({ commit, dispatch }, id) {
+        async deleteRequest({ commit, dispatch }, id: string) {
             console.log(id);
             try {
                 const token = store.getters["auth/token"];
                 const { data } = await axios.delete(`/request/${id}.json?auth=${token}`);
                 dispatch(
                     "setMessage",
-                    {
-                        value: "Заявка удалена",
-                        type: "primary",
-                    },
+                    { value: "Заявка удалена", type: "primary" },
                     { root: true }
                 );
                 commit("setRequest", data);
             } catch (e: any) {
                 dispatch(
                     "setMessage",
-                    {
-                        value: e.message,
-                        type: "danger",
-                    },
+                    { value: e.message, type: "danger" },
                     { root: true }
                 );
             }
